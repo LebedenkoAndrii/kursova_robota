@@ -1,0 +1,27 @@
+.game_board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.cell {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: #ffffff17;
+}
+
+.cell.x {
+  background-color: #ff69b4;
+  color: #000;
+}
+
+.cell.o {
+  background-color: #33cc33;
+  color: #000;
+}

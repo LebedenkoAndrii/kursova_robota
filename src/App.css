@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  /* background-color: #f0f0f0; */
+}
+.container {
+  width: fit-content;
+  margin: 40px auto;
+  padding: 20px;
+  border: 1px solid #ddd;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+}
+
+.game_board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+}
+
+.cell {
+  height: 50px;
+  width: 50px;
+
+  background-color: #ffffff13;
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.cell:hover {
+  background-color: #03fd0c17;
+}
+
+.cell.x {
+  background-color: #ff69b4;
+  color: #fff;
+}
+
+.cell.o {
+  background-color: #33cc33;
+  color: #fff;
+}
+
+.game_info {
+  margin-top: 20px;
+}
+
+.game_info p {
+  margin-bottom: 10px;
+}
+
+.multiplayer {
+  margin-top: 40px;
+}
+
+.room_list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.room_list li {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  cursor: pointer;
+}
+
+.room_list li:hover {
+  background-color: #f7f7f7;
+}
+
+.room_list li:last-child {
+  border-bottom: none;
+}
+
+.create_room {
+  margin-top: 20px;
+}
+
+.create_room input[type="text"] {
+  padding: 10px;
+  width: 100%;
+  font-size: 18px;
+}
+
+.create_room button[type="submit"] {
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.create_room button[type="submit"]:hover {
+  background-color: #3e8e41;
+}
