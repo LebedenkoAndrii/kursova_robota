@@ -1,27 +1,39 @@
+body {
+  font-family: "Kanit", sans-serif;
+  font-size: 1rem;
+}
 .game_board {
+  height: fit-content;
+  width: fit-content;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
 }
 
 .cell {
+  height: 5em;
+  width: 5em;
+  flex: 0 0;
+
+  background-color: #ffffff13;
   border: 1px solid #ddd;
-  padding: 20px;
+  padding: 5px;
+  font-size: 1.5rem;
   text-align: center;
-  font-size: 24px;
   cursor: pointer;
 }
 
 .cell:hover {
-  background-color: #ffffff17;
+  background-color: #03fd0c17;
 }
 
 .cell.x {
-  background-color: #ff69b4;
-  color: #000;
+  background-color: red;
+  color: #fff;
 }
 
 .cell.o {
   background-color: #33cc33;
-  color: #000;
+  color: #fff;
 }

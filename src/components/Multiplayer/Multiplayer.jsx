@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./Multiplayer.css";
 
 const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
   const [roomName, setRoomName] = useState("");
@@ -11,23 +12,24 @@ const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
   };
 
   return (
-    <div>
+    <div className="multiplayer">
       <ul className="room-list">
         {rooms.map((room) => (
           <li key={room.id} onClick={() => joinRoom(room.id)}>
-            {room.name}
+            {"Room: " + room.name}
           </li>
         ))}
       </ul>
       <div className="create-room">
         <input
+          className="input_mp"
           type="text"
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
-          placeholder="Введіть назву кімнати"
+          placeholder="Enter a name of room"
         />
-        <button type="button" onClick={handleCreateRoom}>
-          Створити кімнату
+        <button className="create_btn" type="button" onClick={handleCreateRoom}>
+          Create a room
         </button>
       </div>
     </div>

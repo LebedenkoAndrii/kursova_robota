@@ -9,7 +9,7 @@ const socket = io("http://localhost:3001");
 const App = () => {
   const [gameBoard, setGameBoard] = useState(Array(9).fill(null));
   const [currentPlayer, setCurrentPlayer] = useState("x");
-  const [gameStatus, setGameStatus] = useState("Гра з bot");
+  const [gameStatus, setGameStatus] = useState("Game with BOT");
   const [gameResult, setGameResult] = useState("");
   const [rooms, setRooms] = useState([]);
   const [roomId, setRoomId] = useState(null);
@@ -121,22 +121,26 @@ const App = () => {
   };
 
   return (
-    <div className="container">
-      <h1>Хрестики-Нолики</h1>
-      <GameBoard gameBoard={gameBoard} makeMove={makeMove} />
-      <div className="game_info">
-        <p id="game_status">{gameStatus}</p>
-        <p id="game_result">{gameResult}</p>
+    <>
+      <h1>Tic Tac Toe</h1>
+      <div className="container">
+        <div className="game">
+          <GameBoard gameBoard={gameBoard} makeMove={makeMove} />
+          <div className="game_info">
+            <p id="game_status">{gameStatus}</p>
+            <p id="game_result">{gameResult}</p>
+          </div>
+        </div>
+        <div className="multiplayer">
+          <h2>Multiplayer</h2>
+          <Multiplayer
+            rooms={rooms}
+            createRoom={createRoom}
+            joinRoom={joinRoom}
+          />
+        </div>
       </div>
-      <div className="multiplayer">
-        <h2>Мультіплеєр</h2>
-        <Multiplayer
-          rooms={rooms}
-          createRoom={createRoom}
-          joinRoom={joinRoom}
-        />
-      </div>
-    </div>
+    </>
   );
 };
 
