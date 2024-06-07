@@ -4,7 +4,7 @@ import GameBoard from "./components/GameBoard/GameBoard";
 import Multiplayer from "./components/Multiplayer/Multiplayer";
 import "./App.css";
 
-const socket = io();
+const socket = io("http://localhost:3001");
 
 const App = () => {
   const [gameBoard, setGameBoard] = useState(Array(9).fill(null));
@@ -34,6 +34,17 @@ const App = () => {
     socket.on("joinRoom", (id) => {
       setBotPlaying(false);
       setRoomId(id);
+      setGameStatus(`Гра з людиною в кімнаті ${id}`);
+    });
+
+    socket.on("createRoom", (id) => {
+      setBotPlaying(false);
+      setRoomId(id);
+      setGameStatus(`Гра з людиною в кімнаті ${id}`);
+    });
+
+    socket.on("gameOver", () => {
+      setGameResult(`Гра закінчена!`);
     });
   }, [botPlaying, roomId]);
 
@@ -58,10 +69,10 @@ const App = () => {
       } else {
         const nextPlayer = currentPlayer === "x" ? "o" : "x";
         setCurrentPlayer(nextPlayer);
-        if (botPlaying && nextPlayer === "o") {
-          setTimeout(() => botMove(newBoard), 500);
-        } else {
+        if (roomId) {
           socket.emit("makeMove", roomId, cellIndex, currentPlayer);
+        } else {
+          setTimeout(() => botMove(newBoard), 300);
         }
       }
     }
@@ -87,6 +98,7 @@ const App = () => {
     }
     return false;
   };
+
   const checkDraw = (board) => {
     return board.every((cell) => cell !== null);
   };

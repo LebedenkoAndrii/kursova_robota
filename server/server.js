@@ -1,19 +1,24 @@
 import express from "express";
+import http from "http";
+import { Server } from "socket.io";
+
 const app = express();
-import  server from ("http").createServer(app);
-import io from ("socket.io")(server);
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: "*", // Дозволяє доступ з будь-якого джерела
+  },
+});
 
-app.use(express.static("public"));
+const rooms = [];
 
-let rooms = [];
+app.use(express.static("tic-tac-toe"));
 
 io.on("connection", (socket) => {
   console.log("New connection");
 
-  // Отримання списку кімнат
   socket.emit("roomList", rooms);
 
-  // Створення кімнати
   socket.on("createRoom", (roomName) => {
     const roomId = Math.random().toString(36).substr(2, 9);
     rooms.push({
@@ -21,11 +26,10 @@ io.on("connection", (socket) => {
       name: roomName,
       gameBoard: new Array(9).fill(null),
     });
+    io.emit("roomList", rooms);
     socket.emit("createRoom", roomId);
-    io.emit("roomList", rooms); // Оновити список кімнат для всіх клієнтів
   });
 
-  // Приєднання до кімнати
   socket.on("joinRoom", (roomId) => {
     const room = rooms.find((room) => room.id === roomId);
     if (room) {
@@ -34,7 +38,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Відправка ходу до сервера
   socket.on("makeMove", (roomId, cellIndex, currentPlayer) => {
     const room = rooms.find((room) => room.id === roomId);
     if (room) {
@@ -47,7 +50,6 @@ io.on("connection", (socket) => {
     }
   });
 
-  // Отримання результату гри
   socket.on("gameOver", (roomId) => {
     const room = rooms.find((room) => room.id === roomId);
     if (room) {
@@ -57,6 +59,6 @@ io.on("connection", (socket) => {
   });
 });
 
-server.listen(3000, () => {
-  console.log("Server started on port 3000");
+server.listen(3001, () => {
+  console.log("Server started on port 3001");
 });
