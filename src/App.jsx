@@ -76,6 +76,11 @@ const App = () => {
           setTimeout(() => botMove(newBoard), 300);
         }
       }
+      if (checkWin(room.gameBoard)) {
+        io.to(roomId).emit("gameOver", { message: "Game over! You win!" });
+      } else if (checkDraw(room.gameBoard)) {
+        io.to(roomId).emit("gameOver", { message: "Game over! It's a draw!" });
+      }
     }
   };
 
