@@ -1,6 +1,6 @@
 body {
   font-family: "Kanit", sans-serif;
-  overflow: hidden;
+  overflow-y: scroll;
   height: 100%;
   width: 100%;
 
@@ -15,7 +15,7 @@ body {
   align-items: center;
   gap: 3.5em;
 
-  height: 70vh;
+  height: 100%;
   width: 97vw;
 
   padding: 20px;
