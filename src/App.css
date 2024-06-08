@@ -69,7 +69,22 @@ h1 {
   height: 100%;
   font-size: 1em;
 }
+.r-l-row {
+  display: flex;
+  flex-direction: row;
 
+  gap: 30px;
+  padding: 5px;
+
+  cursor: pointer;
+}
+.leave-btn {
+  font-size: 1.5em;
+  transition: all 0.2s ease-out;
+}
+.leave-btn:hover {
+  color: red;
+}
 h2 {
   font-size: 2.5rem;
   text-align: center;
