@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import GameBoard from "./components/GameBoard/GameBoard";
 import Multiplayer from "./components/Multiplayer/Multiplayer";
+import resetIcon from "./assets/icons/reset.png";
 import "./App.css";
 
 const socket = io("http://localhost:3001");
@@ -23,7 +24,7 @@ const App = () => {
     socket.on("gameResult", (data) => {
       setGameBoard(data.gameBoard);
       setCurrentPlayer(data.currentPlayer);
-      setGameStatus(`Гра з ${data.opponent}`);
+      setGameStatus(`Game with ${data.opponent}`);
       if (checkWin(data.gameBoard)) {
         socket.emit("gameOver", roomId);
       } else if (botPlaying && data.currentPlayer === "o") {
@@ -34,17 +35,17 @@ const App = () => {
     socket.on("joinRoom", (id) => {
       setBotPlaying(false);
       setRoomId(id);
-      setGameStatus(`Гра з людиною в кімнаті ${id}`);
+      setGameStatus(`Play with friend in room: ${id}`);
     });
 
     socket.on("createRoom", (id) => {
       setBotPlaying(false);
       setRoomId(id);
-      setGameStatus(`Гра з людиною в кімнаті ${id}`);
+      setGameStatus(`Play with human in room: ${id}`);
     });
 
     socket.on("gameOver", () => {
-      setGameResult(`Гра закінчена!`);
+      setGameResult(`Game over!`);
     });
   }, [botPlaying, roomId]);
 
@@ -64,7 +65,7 @@ const App = () => {
       if (checkWin(newBoard)) {
         socket.emit("gameOver", roomId);
       } else if (checkDraw(newBoard)) {
-        setGameResult("Нічия!");
+        setGameResult("Draw!");
         socket.emit("gameOver", roomId);
       } else {
         const nextPlayer = currentPlayer === "x" ? "o" : "x";
@@ -92,7 +93,7 @@ const App = () => {
     for (let condition of winConditions) {
       const [a, b, c] = condition;
       if (board[a] && board[a] === board[b] && board[a] === board[c]) {
-        setGameResult(`Перемога ${board[a]}!`);
+        setGameResult(`Victory ${board[a]}!`);
         return true;
       }
     }
@@ -120,6 +121,20 @@ const App = () => {
     }
   };
 
+  const resetGame = () => {
+    setGameBoard(Array(9).fill(null));
+    setCurrentPlayer("x");
+    setGameStatus(
+      botPlaying
+        ? "Game with BOT"
+        : `Play with ${roomId ? "friend in room: " + roomId : "BOT"}`
+    );
+    setGameResult("");
+    if (roomId) {
+      socket.emit("resetGame", roomId);
+    }
+  };
+
   return (
     <>
       <h1>Tic Tac Toe</h1>
@@ -129,6 +144,10 @@ const App = () => {
           <div className="game_info">
             <p id="game_status">{gameStatus}</p>
             <p id="game_result">{gameResult}</p>
+            <button className="reset-button" onClick={resetGame}>
+              Reset Game{" "}
+              <img className="reset-icon" src={resetIcon} alt="reset" />
+            </button>
           </div>
         </div>
         <div className="multiplayer">

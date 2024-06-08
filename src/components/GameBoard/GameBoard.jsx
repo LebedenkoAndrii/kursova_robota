@@ -10,7 +10,7 @@ const GameBoard = ({ gameBoard, makeMove }) => {
           className={`cell ${cell}`}
           onClick={() => makeMove(index)}
         >
-          {cell}
+          <p>{cell}</p>
         </div>
       ))}
     </div>

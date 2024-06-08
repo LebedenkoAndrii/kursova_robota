@@ -6,7 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    origin: "*", // Дозволяє доступ з будь-якого джерела
+    origin: "*",
   },
 });
 
@@ -45,7 +45,7 @@ io.on("connection", (socket) => {
       io.to(roomId).emit("gameResult", {
         gameBoard: room.gameBoard,
         currentPlayer: currentPlayer === "x" ? "o" : "x",
-        opponent: "гравець",
+        opponent: "Player",
       });
     }
   });
