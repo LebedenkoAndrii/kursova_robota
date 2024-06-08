@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 import "./Multiplayer.css";
 
 const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
