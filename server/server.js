@@ -10,7 +10,7 @@ const io = new Server(server, {
   },
 });
 
-const rooms = [];
+let rooms = [];
 
 app.use(express.static("tic-tac-toe"));
 
@@ -62,6 +62,11 @@ io.on("connection", (socket) => {
       room.gameBoard = new Array(9).fill(null);
       io.to(roomId).emit("gameReset");
     }
+  });
+
+  socket.on("deleteRoom", (roomId) => {
+    rooms = rooms.filter((room) => room.id !== roomId);
+    io.emit("roomList", rooms);
   });
 
   socket.on("gameOver", (roomId) => {
