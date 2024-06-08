@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import GameBoard from "./components/GameBoard/GameBoard";
 import Multiplayer from "./components/Multiplayer/Multiplayer";
-import resetIcon from "./assets/icons/reset.png";
+import { GrPowerReset } from "react-icons/gr";
 import "./App.css";
 
 const socket = io("http://localhost:3001");
@@ -150,8 +150,8 @@ const App = () => {
             <p id="game_status">{gameStatus}</p>
             <p id="game_result">{gameResult}</p>
             <button className="reset-button" onClick={resetGame}>
-              Reset Game{" "}
-              <img className="reset-icon" src={resetIcon} alt="reset" />
+              Reset Game
+              <GrPowerReset className="reset-icon" />
             </button>
           </div>
         </div>

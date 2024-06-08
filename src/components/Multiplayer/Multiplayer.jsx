@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 import React, { useState, useEffect } from "react";
 import io from "socket.io-client";
 import "./Multiplayer.css";
