@@ -14,11 +14,15 @@ const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
   return (
     <div className="multiplayer">
       <ul className="room-list">
-        {rooms.map((room) => (
-          <li key={room.id} onClick={() => joinRoom(room.id)}>
-            {"Room: " + room.name}
-          </li>
-        ))}
+        {rooms.length === 0 ? (
+          <p className="empty-list">No rooms</p>
+        ) : (
+          rooms.map((room) => (
+            <li key={room.id} onClick={() => joinRoom(room.id)}>
+              {"Room: " + room.name}
+            </li>
+          ))
+        )}
       </ul>
       <div className="create-room">
         <input
