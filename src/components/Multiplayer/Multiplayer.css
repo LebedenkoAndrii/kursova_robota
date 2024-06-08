@@ -19,7 +19,14 @@ body {
 .room-list li {
   font-size: 1.5em;
 
+  padding: 5px;
+
   cursor: pointer;
+
+  transition: all 0.15s ease-out;
+}
+.room-list li:hover {
+  background-color: #ffffff20;
 }
 .create-room {
   display: flex;
@@ -30,9 +37,15 @@ body {
   padding: 10px;
   width: 100%;
 
-  border: 2px solid #ddd;
+  border: 2px solid #dddddd93;
+  border-radius: 0.3em;
 
   font-size: 1em;
+
+  transition: all 0.2s ease-out;
+}
+.input_mp:focus {
+  border: 2px solid #dddddd;
 }
 
 .create_btn {
@@ -45,10 +58,10 @@ body {
   background-color: #4caf50;
   color: #fff;
 
-  border: none;
-  border-radius: 5px;
+  border-radius: 0.3em;
 
   cursor: pointer;
+  transition: all 0.15s ease-out;
 }
 
 .create_btn:hover {

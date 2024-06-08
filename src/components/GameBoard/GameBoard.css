@@ -12,6 +12,10 @@ body {
 }
 
 .cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   height: 5em;
   width: 5em;
   flex: 0 0;
@@ -21,11 +25,16 @@ body {
   padding: 5px;
   font-size: 1.5rem;
   text-align: center;
+
+  transition: all 0.2s ease-out;
   cursor: pointer;
+}
+.cell p {
+  font-size: 3rem;
 }
 
 .cell:hover {
-  background-color: #03fd0c17;
+  background-color: #dddddd6a;
 }
 
 .cell.x {
