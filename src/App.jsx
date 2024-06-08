@@ -3,6 +3,7 @@ import io from "socket.io-client";
 import GameBoard from "./components/GameBoard/GameBoard";
 import Multiplayer from "./components/Multiplayer/Multiplayer";
 import { GrPowerReset } from "react-icons/gr";
+import { TbDoorExit } from "react-icons/tb";
 import "./App.css";
 
 const socket = io("http://localhost:3001");
@@ -25,9 +26,11 @@ const App = () => {
       setGameBoard(data.gameBoard);
       setCurrentPlayer(data.currentPlayer);
       setGameStatus(`Game with ${data.opponent}`);
-      if (checkWin(data.gameBoard)) {
-        socket.emit("gameOver", roomId);
-      } else if (botPlaying && data.currentPlayer === "o") {
+      if (data.result !== "") {
+        setGameResult(data.result);
+        console.log(data.result);
+      }
+      if (botPlaying && data.currentPlayer === "o" && data.result === "") {
         botMove(data.gameBoard);
       }
     });
@@ -44,8 +47,16 @@ const App = () => {
       setGameStatus(`Play with human in room: ${id}`);
     });
 
-    socket.on("gameOver", () => {
-      setGameResult(`Game over!`);
+    socket.on("gameOver", (winner) => {
+      if (winner) {
+        setGameResult(`Victory ${winner}!`);
+      } else {
+        setGameResult(`Game over!`);
+      }
+    });
+
+    socket.on("roomDeleted", () => {
+      resetToBotGame();
     });
   }, [botPlaying, roomId]);
 
@@ -62,11 +73,13 @@ const App = () => {
       const newBoard = [...gameBoard];
       newBoard[cellIndex] = currentPlayer;
       setGameBoard(newBoard);
+      socket.emit("makeMove", roomId, cellIndex, currentPlayer, newBoard); // Відправлення стану гри на сервер
       if (checkWin(newBoard)) {
-        socket.emit("gameOver", roomId);
+        setGameResult(`Victory ${currentPlayer}!`);
+        socket.emit("gameOver", roomId, currentPlayer);
       } else if (checkDraw(newBoard)) {
         setGameResult("Draw!");
-        socket.emit("gameOver", roomId);
+        socket.emit("gameOver", roomId, null);
       } else {
         const nextPlayer = currentPlayer === "x" ? "o" : "x";
         setCurrentPlayer(nextPlayer);
@@ -75,11 +88,6 @@ const App = () => {
         } else {
           setTimeout(() => botMove(newBoard), 300);
         }
-      }
-      if (checkWin(room.gameBoard)) {
-        io.to(roomId).emit("gameOver", { message: "Game over! You win!" });
-      } else if (checkDraw(room.gameBoard)) {
-        io.to(roomId).emit("gameOver", { message: "Game over! It's a draw!" });
       }
     }
   };
@@ -126,6 +134,15 @@ const App = () => {
     }
   };
 
+  const resetToBotGame = () => {
+    setGameBoard(Array(9).fill(null));
+    setCurrentPlayer("x");
+    setGameStatus("Game with BOT");
+    setGameResult("");
+    setRoomId(null);
+    setBotPlaying(true);
+  };
+
   const resetGame = () => {
     setGameBoard(Array(9).fill(null));
     setCurrentPlayer("x");
@@ -140,6 +157,11 @@ const App = () => {
     }
   };
 
+  const leaveRoom = () => {
+    socket.emit("leaveRoom", roomId);
+    resetToBotGame();
+  };
+
   return (
     <>
       <h1>Tic Tac Toe</h1>
@@ -149,10 +171,12 @@ const App = () => {
           <div className="game_info">
             <p id="game_status">{gameStatus}</p>
             <p id="game_result">{gameResult}</p>
-            <button className="reset-button" onClick={resetGame}>
-              Reset Game
-              <GrPowerReset className="reset-icon" />
-            </button>
+            <div className="r-l-row">
+              <button className="reset-button" onClick={resetGame}>
+                Reset Game <GrPowerReset />
+              </button>
+              <TbDoorExit className="" onClick={leaveRoom} />
+            </div>
           </div>
         </div>
         <div className="multiplayer">

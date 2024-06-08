@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { IoCloseOutline } from "react-icons/io5";
 import React, { useState, useEffect } from "react";
+import { IoCloseOutline } from "react-icons/io5";
 import io from "socket.io-client";
 import "./Multiplayer.css";
 
@@ -8,16 +7,6 @@ const socket = io("http://localhost:3001");
 
 const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
   const [roomName, setRoomName] = useState("");
-
-  useEffect(() => {
-    socket.on("roomList", (rooms) => {
-      setRooms(rooms);
-    });
-
-    return () => {
-      socket.off("roomList");
-    };
-  }, []);
 
   const handleCreateRoom = () => {
     if (roomName.trim()) {
@@ -27,7 +16,7 @@ const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
   };
 
   const deleteRoom = (roomId) => {
-    socket.emit("deleteRoom", roomId); // Відправляємо подію на сервер для видалення кімнати
+    socket.emit("deleteRoom", roomId);
   };
 
   return (
@@ -41,7 +30,10 @@ const Multiplayer = ({ rooms, createRoom, joinRoom }) => {
               <span onClick={() => joinRoom(room.id)}>
                 {"Room: " + room.name}
               </span>
-              <button onClick={() => deleteRoom(room.id)}>Delete</button>{" "}
+              <IoCloseOutline
+                className="delete-btn"
+                onClick={() => deleteRoom(room.id)}
+              />
             </li>
           ))
         )}

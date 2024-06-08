@@ -17,6 +17,11 @@ body {
   gap: 10px;
 }
 .room-list li {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+
   font-size: 1.5em;
 
   padding: 5px;
@@ -31,6 +36,15 @@ body {
 }
 .room-list li:hover {
   background-color: #ffffff20;
+}
+.delete-btn {
+  font-size: 1.5em;
+  transition: 0.2s ease-out;
+  border-radius: 50%;
+}
+.delete-btn:hover {
+  color: red;
+  background-color: #dddddd8a;
 }
 .create-room {
   display: flex;
