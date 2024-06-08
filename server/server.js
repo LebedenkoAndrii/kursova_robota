@@ -47,6 +47,20 @@ io.on("connection", (socket) => {
         currentPlayer: currentPlayer === "x" ? "o" : "x",
         opponent: "Player",
       });
+
+      if (checkWin(room.gameBoard)) {
+        io.to(roomId).emit("gameOver", { message: "Game over! You win!" });
+      } else if (checkDraw(room.gameBoard)) {
+        io.to(roomId).emit("gameOver", { message: "Game over! It's a draw!" });
+      }
+    }
+  });
+
+  socket.on("resetGame", (roomId) => {
+    const room = rooms.find((room) => room.id === roomId);
+    if (room) {
+      room.gameBoard = new Array(9).fill(null);
+      io.to(roomId).emit("gameReset");
     }
   });
 
