@@ -13,7 +13,7 @@ body {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 3.5em;
+  gap: 1em;
 
   height: 100%;
   width: 97vw;
@@ -26,7 +26,7 @@ h1 {
   font-size: 3rem;
   font-weight: 600;
   letter-spacing: 3px;
-  margin-bottom: 50px;
+  margin-bottom: 0.5em;
 }
 .game {
   width: 50%;
@@ -41,6 +41,7 @@ h1 {
   align-items: center;
   font-size: 2em;
   margin-top: 20px;
+  font-size: 1em;
 }
 
 .game_info p {
@@ -72,6 +73,7 @@ h1 {
 .r-l-row {
   display: flex;
   flex-direction: row;
+  font-size: 1.5em;
 
   gap: 30px;
   padding: 5px;
@@ -99,4 +101,28 @@ h2 {
 
   width: 50%;
   margin-top: 40px;
+}
+.players-info {
+  display: flex;
+  flex-direction: row;
+  gap: 3em;
+  margin: 1em;
+}
+.player {
+  padding: 10px 15px;
+  border-radius: 8px;
+}
+.game-controls select option {
+  background: #e0f7fa;
+  color: #000;
+}
+
+.game-controls select option:hover {
+  background: #b2ebf2;
+}
+#game_status,
+#game_result,
+#current_turn,
+#total_games {
+  margin: 10px 0;
 }
