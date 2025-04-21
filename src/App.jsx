@@ -73,7 +73,7 @@ const App = () => {
       const newBoard = [...gameBoard];
       newBoard[cellIndex] = currentPlayer;
       setGameBoard(newBoard);
-      socket.emit("makeMove", roomId, cellIndex, currentPlayer, newBoard); // Відправлення стану гри на сервер
+      socket.emit("makeMove", roomId, cellIndex, currentPlayer, newBoard);
       if (checkWin(newBoard)) {
         setGameResult(`Victory ${currentPlayer}!`);
         socket.emit("gameOver", roomId, currentPlayer);
